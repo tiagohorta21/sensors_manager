@@ -18,7 +18,8 @@ def createSensor():
     # unit = request.form['unit']
     sensor = "sensor1"
     # Adds a new sensor
-    cursor.execute("INSERT INTO Unit (description) VALUES (?,?)", (None, sensor))
+    cursor.execute("INSERT INTO Sensor (idSensor, idLocation, name, unit) VALUES (?,?,?,?)",
+                   (None, None, 'name', 'unit'))
 
     # Save (commit) the changes
     connection.commit()
@@ -27,3 +28,7 @@ def createSensor():
     connection.close()
 
     return 'Hello, World'
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
