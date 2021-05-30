@@ -17,6 +17,11 @@ To achieve this you can use [Kivy](https://kivy.org).
 
 # Running the application
 
+In the API folder:
+```
+set FLASK_APP=main.py
+```
+
 ```
 set FLASK_ENV=development
 ```
