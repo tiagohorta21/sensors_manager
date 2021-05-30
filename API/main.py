@@ -8,7 +8,8 @@ app = Flask(__name__)
 @app.route('/', methods=['GET'])
 @app.route('/home', methods=['GET'])
 def homeScreen():
-    return render_template('home.html', sensors=["a", "b", "c"])
+    sensorsList = listSensor()
+    return render_template('home.html', sensors=sensorsList)
 
 
 @app.route('/sensors/create-sensor', methods=['GET', 'POST'])
@@ -44,11 +45,13 @@ def listSensor():
     cursor.execute('SELECT * FROM Sensor')
     sensorsList = cursor.fetchall()
 
+    # Save (commit) the changes
+    connection.commit()
     # We can also close the connection if we are done with it
     # Just be sure any changes have been committed or they will be lost.
     connection.close()
 
-    return jsonify(sensorsList)
+    return sensorsList
 
 
 if __name__ == '__main__':
