@@ -1,8 +1,14 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, render_template
 from flask import request
 import sqlite3
 
 app = Flask(__name__)
+
+
+@app.route('/', methods=['GET'])
+@app.route('/home', methods=['GET'])
+def homeScreen():
+    return render_template('home.html', sensors=["a", "b", "c"])
 
 
 @app.route('/sensors/create-sensor', methods=['GET', 'POST'])

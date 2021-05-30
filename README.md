@@ -14,3 +14,18 @@ The referred implementation should be made in [Flask Jinja](https://flask.pallet
 
 Implement a mobile app which will send to your web service data from at least one your mobile’s sensors.  
 To achieve this you can use [Kivy](https://kivy.org).
+
+# Running the application
+
+In the API folder:
+```
+set FLASK_APP=main.py
+```
+
+```
+set FLASK_ENV=development
+```
+
+```
+flask run
+```

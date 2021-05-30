@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sensors manager</title>
+    <style>
+    table, th, td {
+      border: 1px solid black;
+    }
+    </style>
+</head>
+<body>
+   <table style="width:100%">
+       <tr>
+        <th>Sensor Name</th>
+        <th>Sensor Unit</th>
+       </tr>
+       {% for sensor in sensors %}
+       <tr>
+        <td>{{sensor.name}}</td>
+        <td>{{sensor.unit}}</td>
+       </tr>
+       {% endfor %}
+</table>
+</body>
+</html>
