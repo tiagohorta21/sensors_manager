@@ -8,18 +8,16 @@ app = Flask(__name__)
 @app.route('/sensors/create-sensor', methods=['GET', 'POST'])
 def createSensor():
     # Open database connection
-    connection = sqlite3.connect("../TP2.db")
+    connection = sqlite3.connect("TP2.db")
     cursor = connection.cursor()
 
-    # Access received data
+    # Access received data from the url
+    name = request.args.get('name')
+    unit = request.args.get('unit')
 
-    # name = request.form['name']
-    # location = request.form['location']
-    # unit = request.form['unit']
-    sensor = "sensor1"
     # Adds a new sensor
-    cursor.execute("INSERT INTO Sensor (idSensor, idLocation, name, unit) VALUES (?,?,?,?)",
-                   (None, None, 'name', 'unit'))
+    cursor.execute('INSERT INTO Sensor (idSensor, idLocation, name, unit) VALUES (?,?,?,?)',
+                   (None, None, name, unit))
 
     # Save (commit) the changes
     connection.commit()
@@ -27,7 +25,7 @@ def createSensor():
     # Just be sure any changes have been committed or they will be lost.
     connection.close()
 
-    return 'Hello, World'
+    return 'Sensor created successfully'
 
 
 if __name__ == '__main__':
