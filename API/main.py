@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, jsonify, render_template
 from flask import request
 import sqlite3
 
@@ -32,6 +32,23 @@ def createSensor():
     connection.close()
 
     return 'Sensor created successfully'
+
+
+@app.route('/sensors', methods=['GET'])
+def listSensor():
+    # Open database connection
+    connection = sqlite3.connect("TP2.db")
+    cursor = connection.cursor()
+
+    # list sensors
+    cursor.execute('SELECT * FROM Sensor')
+    sensorsList = cursor.fetchall()
+
+    # We can also close the connection if we are done with it
+    # Just be sure any changes have been committed or they will be lost.
+    connection.close()
+
+    return jsonify(sensorsList)
 
 
 if __name__ == '__main__':
