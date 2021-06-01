@@ -1,5 +1,4 @@
-from flask import Flask, jsonify, render_template
-from flask import request
+from flask import Flask, render_template, request
 import sqlite3
 
 app = Flask(__name__)
@@ -41,7 +40,7 @@ def listSensor():
     connection = sqlite3.connect("TP2.db")
     cursor = connection.cursor()
 
-    # list sensors
+    # List sensors
     cursor.execute('SELECT * FROM Sensor')
     sensorsList = cursor.fetchall()
 
@@ -60,8 +59,9 @@ def deleteSensor(id):
     connection = sqlite3.connect("TP2.db")
     cursor = connection.cursor()
 
+    # Deletes a sensor by id
     cursor.execute("PRAGMA FOREIGN_KEYS = ON")
-    cursor.execute('DELETE FROM Sensor WHERE idSensor= ?', id)
+    cursor.execute('DELETE FROM Sensor WHERE idSensor=?', id)
 
     # Save (commit) the changes
     connection.commit()
