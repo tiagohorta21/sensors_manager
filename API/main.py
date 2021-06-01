@@ -56,7 +56,7 @@ def listSensor():
     return sensorsList
 
 
-@app.route('/delete/<id>')
+@app.route('/delete/<id>', methods=['GET', 'DELETE'])
 def deleteSensor(id):
     # Open database connection
     connection = sqlite3.connect("TP2.db")
@@ -64,7 +64,7 @@ def deleteSensor(id):
 
     # Deletes a sensor by id
     cursor.execute("PRAGMA FOREIGN_KEYS = ON")
-    cursor.execute('DELETE FROM Sensor WHERE idSensor=?', id)
+    cursor.execute('DELETE FROM Sensor WHERE idSensor=?', (id,))
 
     # Save (commit) the changes
     connection.commit()
