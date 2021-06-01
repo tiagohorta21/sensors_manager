@@ -14,11 +14,13 @@
        <tr>
         <th>Sensor Name</th>
         <th>Sensor Unit</th>
+        <th>Delete a Sensor</th>
        </tr>
        {% for sensor in sensors %}
        <tr>
         <td>{{sensor[2]}}</td>
         <td>{{sensor[3]}}</td>
+        <td><a href="/delete/{{sensor[0]}}">Delete</a></td>
        </tr>
        {% endfor %}
 </table>
