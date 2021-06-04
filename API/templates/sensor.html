@@ -6,13 +6,17 @@
 </head>
 <body>
     <p>
-        Add sensor data
+        {% if sensorName %}
+            Update sensor data
+        {% else %}
+            Add sensor data
+        {% endif %}
     </p>
-   <form method="post">
+    <form method="post">
       <label for="name">Sensor name:</label>
-      <input id="sensor_name" name="name" type="text"><br><br>
+      <input id="sensor_name" name="name" type="text" value="{{sensorName}}"><br><br>
       <label for="unit">Sensor unit:</label>
-      <input id="sensor_unit" name="unit" type="text"><br><br>
+      <input id="sensor_unit" name="unit" type="text" value="{{sensorUnit}}"><br><br>
       <input name="submit_button" type="submit" value="Submit">
     </form>
 </body>
