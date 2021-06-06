@@ -14,10 +14,21 @@
         {% endif %}
     </p>
     <form method="post">
-      <label for="name">Sensor name:</label>
+      <label for="sensor_name">Sensor name:</label>
       <input id="sensor_name" name="name" type="text" value="{{sensorName}}"><br><br>
-      <label for="unit">Sensor unit:</label>
+
+      <label for="sensor_unit">Sensor unit:</label>
       <input id="sensor_unit" name="unit" type="text" value="{{sensorUnit}}"><br><br>
+
+      <label for="unit_description">Sensor unit description:</label>
+      <input id="unit_description" name="unit_description" type="text" value="{{sensorUnitDescription}}"><br><br>
+
+      <label for="sensor_location">Sensor location:</label>
+      <input id="sensor_location" name="location" type="text" value="{{sensorLocation}}"><br><br>
+
+      <label for="location_description">Sensor location description:</label>
+      <input id="location_description" name="location_description" type="text" value="{{sensorLocationDescription}}"><br><br>
+
       <input name="submit_button" type="submit" value="Submit">
     </form>
 </body>

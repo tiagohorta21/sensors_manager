@@ -18,6 +18,7 @@
        <tr>
         <th>Sensor Name</th>
         <th>Sensor Unit</th>
+        <th>Sensor Location</th>
         <th>Delete a Sensor</th>
         <th>Update a Sensor</th>
        </tr>
@@ -25,6 +26,7 @@
        <tr>
         <td>{{sensor[2]}}</td>
         <td>{{sensor[3]}}</td>
+        <td><a href="https://www.google.com/maps/place/{{sensor[1]}}" target="_blank" rel="noopener noreferrer">{{sensor[1]}}</a></td>
         <td><a href="/sensors/{{sensor[0]}}/delete">Delete</a></td>
         <td><a href="/sensors/{{sensor[0]}}/update">Update</a></td>
        </tr>
