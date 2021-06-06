@@ -70,7 +70,7 @@ def createSensor():
         # Just be sure any changes have been committed or they will be lost.
         connection.close()
 
-        return 'Sensor created successfully'
+        return homeScreen()
     elif request.method == 'GET':
         return render_template('sensor.html')
 
@@ -91,7 +91,7 @@ def deleteSensor(id):
     # Just be sure any changes have been committed or they will be lost.
     connection.close()
 
-    return 'Sensor deleted successfully'
+    return homeScreen()
 
 
 @app.route('/sensors/<id>/update', methods=['GET', 'PUT', 'POST'])
@@ -115,7 +115,7 @@ def updateSensor(id):
         # Just be sure any changes have been committed or they will be lost.
         connection.close()
 
-        return 'Sensor updated successfully'
+        return homeScreen()
     elif request.method == 'GET':
         sensor = getSensor(id)
         return render_template('sensor.html', sensorName=sensor[2], sensorUnit=sensor[3])

@@ -7,10 +7,14 @@
     table, th, td {
       border: 1px solid black;
     }
+    button {
+      margin-bottom: 24px;
+    }
     </style>
 </head>
 <body>
-   <table style="width:100%">
+    <button onclick="location.href='/sensors/create-sensor'" type="button">Create a new sensor</button>
+    <table style="width:100%">
        <tr>
         <th>Sensor Name</th>
         <th>Sensor Unit</th>
@@ -25,6 +29,6 @@
         <td><a href="/sensors/{{sensor[0]}}/update">Update</a></td>
        </tr>
        {% endfor %}
-</table>
+    </table>
 </body>
 </html>
