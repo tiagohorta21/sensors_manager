@@ -24,11 +24,11 @@
        </tr>
        {% for sensor in sensors %}
        <tr>
-        <td>{{sensor[2]}}</td>
-        <td>{{sensor[3]}}</td>
-        <td><a href="https://www.google.com/maps/place/{{sensor[1]}}" target="_blank" rel="noopener noreferrer">{{sensor[1]}}</a></td>
-        <td><a href="/sensors/{{sensor[0]}}/delete">Delete</a></td>
-        <td><a href="/sensors/{{sensor[0]}}/update">Update</a></td>
+        <td>{{sensor.name}}</td>
+        <td>{{sensor.unit}}</td>
+        <td><a href="https://www.google.com/maps/place/{{sensor.location}}" target="_blank" rel="noopener noreferrer">{{sensor.location}}</a></td>
+        <td><a href="/sensors/{{sensor.idSensor}}/delete">Delete</a></td>
+        <td><a href="/sensors/{{sensor.idSensor}}/update">Update</a></td>
        </tr>
        {% endfor %}
     </table>

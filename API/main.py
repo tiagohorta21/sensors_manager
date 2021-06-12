@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request
 import sqlite3
+import json
 
 app = Flask(__name__)
 
@@ -7,10 +8,7 @@ app = Flask(__name__)
 @app.route('/', methods=['GET'])
 @app.route('/home', methods=['GET'])
 def homeScreen():
-    sensorsList = [list(sensor) for sensor in listSensor()]
-    for sensor in sensorsList:
-        location = getLocation(sensor[1])
-        sensor[1] = location[1]
+    sensorsList = json.loads(listSensor())
     return render_template('home.html', sensors=sensorsList)
 
 
@@ -18,11 +16,13 @@ def homeScreen():
 def listSensor():
     # Open database connection
     connection = sqlite3.connect("TP2.db")
+    connection.row_factory = sqlite3.Row
     cursor = connection.cursor()
 
     # List sensors
-    cursor.execute('SELECT * FROM Sensor')
-    sensorsList = cursor.fetchall()
+    cursor.execute('SELECT Sensor.idSensor, Sensor.unit, Sensor.name, Location.name AS location FROM Sensor,'
+                   'Location WHERE Sensor.idLocation=Location.idLocation')
+    sensorsList = [dict(row) for row in cursor.fetchall()]
 
     # Save (commit) the changes
     connection.commit()
@@ -30,18 +30,22 @@ def listSensor():
     # Just be sure any changes have been committed or they will be lost.
     connection.close()
 
-    return sensorsList
+    return json.dumps(sensorsList)
 
 
 @app.route('/sensors/<id>', methods=['GET'])
 def getSensor(id):
     # Open database connection
     connection = sqlite3.connect("TP2.db")
+    connection.row_factory = sqlite3.Row
     cursor = connection.cursor()
 
     # List sensors
-    cursor.execute('SELECT * FROM Sensor WHERE idSensor=?', (id,))
-    sensor = cursor.fetchone()
+    cursor.execute('SELECT Sensor.idSensor, Sensor.unit, Sensor.name, Location.name AS location, Location.description '
+                   'AS locationDescription, Unit.description AS unitDescription FROM Sensor, '
+                   'Location, Unit WHERE '
+                   'idSensor=? AND Sensor.idLocation=Location.idLocation AND Sensor.unit=Unit.unit', (id,))
+    sensor = dict(cursor.fetchone())
 
     # Save (commit) the changes
     connection.commit()
@@ -49,7 +53,7 @@ def getSensor(id):
     # Just be sure any changes have been committed or they will be lost.
     connection.close()
 
-    return sensor
+    return json.dumps(sensor)
 
 
 @app.route('/sensors/create-sensor', methods=['GET', 'POST'])
@@ -124,15 +128,15 @@ def updateSensor(id):
         location_description = request.form.get('location_description')
 
         # Get sensor data to get the current sensor unit
-        sensor = getSensor(id)
+        sensor = json.loads(getSensor(id))
 
         # Update unit by unit
         cursor.execute('UPDATE Unit SET unit=?, description=? WHERE unit=?',
-                       (unit, unit_description, sensor[3]))
+                       (unit, unit_description, sensor['unit']))
 
         # Update location by id
         cursor.execute('UPDATE Location SET name=?, description=? WHERE idLocation=?',
-                       (location, location_description, sensor[1]))
+                       (location, location_description, sensor['location']))
 
         # Update sensor by id
         cursor.execute('UPDATE Sensor SET name=?, unit=? WHERE idSensor=?',
@@ -147,50 +151,8 @@ def updateSensor(id):
         return homeScreen()
     elif request.method == 'GET':
         # Get needed data to fill the form
-        sensor = getSensor(id)
-        unit = getUnit(sensor[3])
-        location = getLocation(sensor[1])
-
-        return render_template('sensor.html', sensorName=sensor[2], sensorUnit=sensor[3], sensorUnitDescription=unit[1],
-                               sensorLocation=location[1], sensorLocationDescription=location[2])
-
-
-@app.route('/unit/<unit>', methods=['GET'])
-def getUnit(unit):
-    # Open database connection
-    connection = sqlite3.connect("TP2.db")
-    cursor = connection.cursor()
-
-    # Get a specific unit by unit
-    cursor.execute('SELECT * FROM Unit WHERE unit=?', (unit,))
-    unit = cursor.fetchone()
-
-    # Save (commit) the changes
-    connection.commit()
-    # We can also close the connection if we are done with it
-    # Just be sure any changes have been committed or they will be lost.
-    connection.close()
-
-    return unit
-
-
-@app.route('/location/<id>', methods=['GET'])
-def getLocation(id):
-    # Open database connection
-    connection = sqlite3.connect("TP2.db")
-    cursor = connection.cursor()
-
-    # Get a specific location by id
-    cursor.execute('SELECT * FROM Location WHERE idLocation=?', (id,))
-    location = cursor.fetchone()
-
-    # Save (commit) the changes
-    connection.commit()
-    # We can also close the connection if we are done with it
-    # Just be sure any changes have been committed or they will be lost.
-    connection.close()
-
-    return location
+        sensor = json.loads(getSensor(id))
+        return render_template('sensor.html', sensor=sensor)
 
 
 if __name__ == '__main__':

@@ -7,7 +7,7 @@
 <body>
     <button onclick="location.href='/'" type="button">List of sensors</button>
     <p>
-        {% if sensorName %}
+        {% if sensor is defined %}
             Update sensor data
         {% else %}
             Add sensor data
@@ -15,19 +15,19 @@
     </p>
     <form method="post">
       <label for="sensor_name">Sensor name:</label>
-      <input id="sensor_name" name="name" type="text" value="{{sensorName}}"><br><br>
+      <input id="sensor_name" name="name" type="text" {% if sensor is defined %}value="{{sensor.name}}"{% endif %}><br><br>
 
       <label for="sensor_unit">Sensor unit:</label>
-      <input id="sensor_unit" name="unit" type="text" value="{{sensorUnit}}"><br><br>
+      <input id="sensor_unit" name="unit" type="text" {% if sensor is defined %}value="{{sensor.unit}}"{% endif %}><br><br>
 
       <label for="unit_description">Sensor unit description:</label>
-      <input id="unit_description" name="unit_description" type="text" value="{{sensorUnitDescription}}"><br><br>
+      <input id="unit_description" name="unit_description" type="text" {% if sensor is defined %}value="{{sensor.unitDescription}}"{% endif %}><br><br>
 
       <label for="sensor_location">Sensor location:</label>
-      <input id="sensor_location" name="location" type="text" value="{{sensorLocation}}"><br><br>
+      <input id="sensor_location" name="location" type="text" {% if sensor is defined %}value="{{sensor.location}}"{% endif %}><br><br>
 
       <label for="location_description">Sensor location description:</label>
-      <input id="location_description" name="location_description" type="text" value="{{sensorLocationDescription}}"><br><br>
+      <input id="location_description" name="location_description" type="text" {% if sensor is defined %}value="{{sensor.locationDescription}}"{% endif %}><br><br>
 
       <input name="submit_button" type="submit" value="Submit">
     </form>
