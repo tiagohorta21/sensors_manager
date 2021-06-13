@@ -2,22 +2,22 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:mobile_app/sensorsList.dart';
 
-Future<void> createSensor(data) async {
-  print(data);
-
+Future<void> createSensor(SensorData data, context) async {
   final response = await http.post(
-    Uri.parse('http://192.168.1.201:5000/sensors/create-sensor'),
-    headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
-    },
-    // Fix Sensor data
-    body: jsonEncode(SensorData.fromJson(data)),
-  );
+      Uri.parse('http://192.168.1.201:5000/sensors/create-sensor'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(data.toJson()));
 
   if (response.statusCode == 200) {
     // Navigate to list
-    return null;
+    Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const SensorsList()),
+        (route) => false);
   } else {
     throw Exception('Failed to create a sensor');
   }
@@ -38,14 +38,14 @@ class SensorData {
     required this.locationDescription,
   });
 
-  factory SensorData.fromJson(dynamic data) {
-    return SensorData(
-      name: data['name'],
-      unit: data['unit'],
-      unitDescription: data['unitDescription'],
-      location: data['location'],
-      locationDescription: data['locationDescription'],
-    );
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'unit': unit,
+      'unitDescription': unitDescription,
+      'location': location,
+      'locationDescription': locationDescription
+    };
   }
 }
 
@@ -120,13 +120,16 @@ class SensorsFormState extends State<SensorsForm> {
                 padding: const EdgeInsets.all(20.0),
                 child: ElevatedButton(
                   onPressed: () {
-                    createSensor({
-                      sensorNameController.text,
-                      sensorUnitController.text,
-                      sensorUnitDescriptionController.text,
-                      sensorLocationController.text,
-                      sensorLocationDescriptionController.text
-                    });
+                    createSensor(
+                        SensorData(
+                            name: sensorNameController.text,
+                            unit: sensorUnitController.text,
+                            unitDescription:
+                                sensorUnitDescriptionController.text,
+                            location: sensorLocationController.text,
+                            locationDescription:
+                                sensorLocationDescriptionController.text),
+                        context);
                   },
                   child: const Text('Submit'),
                 ),
