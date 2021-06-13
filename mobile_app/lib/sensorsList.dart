@@ -16,7 +16,7 @@ Future<List<Sensor>> fetchSensors() async {
   } else {
     // If the server did not return a 200 OK response,
     // then throw an exception.
-    throw Exception('Failed to load album');
+    throw Exception('Failed to load sensors');
   }
 }
 
@@ -72,8 +72,10 @@ class _SensorsListState extends State<SensorsList> {
                 padding: const EdgeInsets.all(20.0),
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => SensorsForm()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const SensorsForm()));
                   },
                   child: const Text('Create Sensor'),
                 )),

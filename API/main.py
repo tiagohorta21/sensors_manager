@@ -58,17 +58,20 @@ def getSensor(id):
 
 @app.route('/sensors/create-sensor', methods=['GET', 'POST'])
 def createSensor():
-    if request.method == 'POST' and request.form['submit_button'] == 'Submit':
+    if request.method == 'POST':
         # Open database connection
         connection = sqlite3.connect("TP2.db")
         cursor = connection.cursor()
 
+        # Json payload from the POST request
+        payload = request.get_json()
+
         # Access received data from the form
-        name = request.form.get('name')
-        unit = request.form.get('unit')
-        unit_description = request.form.get('unit_description')
-        location = request.form.get('location')
-        location_description = request.form.get('location_description')
+        name = request.form.get('name') or payload['name']
+        unit = request.form.get('unit') or payload['unit']
+        unit_description = request.form.get('unit_description') or payload['unitDescription']
+        location = request.form.get('location') or payload['location']
+        location_description = request.form.get('location_description') or payload['locationDescription']
 
         # Adds unit and unit description to the Unit table
         cursor.execute('INSERT INTO Unit (unit, description) VALUES (?,?)',
@@ -120,12 +123,15 @@ def updateSensor(id):
         connection = sqlite3.connect("TP2.db")
         cursor = connection.cursor()
 
+        # Json payload from the POST request
+        payload = request.get_json()
+
         # Access received data from the form
-        name = request.form.get('name')
-        unit = request.form.get('unit')
-        unit_description = request.form.get('unit_description')
-        location = request.form.get('location')
-        location_description = request.form.get('location_description')
+        name = request.form.get('name') or payload['name']
+        unit = request.form.get('unit') or payload['unit']
+        unit_description = request.form.get('unit_description') or payload['unit_description']
+        location = request.form.get('location') or payload['location']
+        location_description = request.form.get('location_description') or payload['location_description']
 
         # Get sensor data to get the current sensor unit
         sensor = json.loads(getSensor(id))
