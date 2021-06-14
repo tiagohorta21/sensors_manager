@@ -13,7 +13,7 @@ The referred implementation should be made in [Flask Jinja](https://flask.pallet
 ### 3. Mobile Application
 
 Implement a mobile app which will send to your web service data from at least one your mobile’s sensors.  
-To achieve this you can use [Kivy](https://kivy.org).
+To achieve this you can use [Flutter](https://flutter.dev/).
 
 # Running the application
 
