@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 
 Future<List<Sensor>> fetchSensors() async {
   final response =
-      await http.get(Uri.parse('http://192.168.1.201:5000/sensors'));
+      await http.get(Uri.parse('http://192.168.1.202:5000/sensors'));
 
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,

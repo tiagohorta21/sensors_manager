@@ -6,7 +6,7 @@ import 'package:mobile_app/sensorsList.dart';
 
 Future<void> createSensor(SensorData data, context) async {
   final response = await http.post(
-      Uri.parse('http://192.168.1.201:5000/sensors/create-sensor'),
+      Uri.parse('http://192.168.1.202:5000/sensors/create-sensor'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
